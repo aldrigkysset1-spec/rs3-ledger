@@ -200,6 +200,7 @@
     border-radius: 6px 0 0 6px;
   }
   .lb-fill.maxed{ border-radius: 6px; }
+  .lb-fill.gain{ background: var(--gold); }
   .lb-total{ text-align: right; font-size: 13px; color: var(--text-secondary); }
 
   /* ---------- roster ---------- */
@@ -345,6 +346,11 @@
     <div id="lbRows"></div>
   </div>
 
+  <div class="leaderboard">
+    <div class="section-heading">This Week's Grind</div>
+    <div id="xpRows"></div>
+  </div>
+
   <div class="section-heading">The Fellowship</div>
   <div class="roster" id="roster"></div>
 
@@ -376,6 +382,7 @@ const CAPS = {
 let PLAYERS = [];
 
 const fmt = n => n.toLocaleString("en-US");
+const PVM_KEYWORDS = /\b(kill|killed|defeat|defeated|slain|slew|boss|raid|Telos|Nex|Vorago|Solak|Kalphite King|Croesus|Yakamaru|Arch-Glacor|Char|Kerapac|Verak Lith|Raksha|Helwyr|Vindicta|Gregorovic|Rasial|Zamorak|Twin Furies)\b/i;
 
 function bar(pct, good){
   return `<div class="bar"><span class="${good ? 'good' : ''}" style="width:${Math.min(100,pct)}%"></span></div>`;
@@ -412,6 +419,30 @@ function renderLeaderboard(){
       <div class="lb-total num">${fmt(p.totalLevel)}</div>
     </div>`;
   }).join("");
+}
+
+function renderXpLeaderboard(){
+  const known = PLAYERS.filter(p => !p.missing);
+  const withGain = known.filter(p => typeof p.xpGainedWeek === "number" && p.xpGainedWeek > 0);
+  const gathering = known.filter(p => !(typeof p.xpGainedWeek === "number" && p.xpGainedWeek > 0));
+  const ranked = withGain.slice().sort((a,b)=> b.xpGainedWeek - a.xpGainedWeek);
+  const maxGain = ranked.length ? ranked[0].xpGainedWeek : 0;
+
+  const rows = ranked.map((p,i)=>{
+    const pct = maxGain > 0 ? (p.xpGainedWeek / maxGain * 100) : 0;
+    return `<div class="lb-row">
+      <div class="lb-rank num">${i+1}</div>
+      <div class="lb-name">${p.name}</div>
+      <div class="lb-track"><div class="lb-fill gain" style="width:${pct}%"></div></div>
+      <div class="lb-total num">+${fmt(p.xpGainedWeek)}</div>
+    </div>`;
+  }).join("");
+
+  const gatheringNote = gathering.length
+    ? `<div class="notice" style="margin-top:${rows ? '10px' : '0'};">${gathering.map(p=>p.name).join(", ")} — still building up enough refresh history to show a weekly trend. This fills in on its own over the coming days.</div>`
+    : "";
+
+  document.getElementById("xpRows").innerHTML = rows + gatheringNote || `<div class="notice">No XP gains recorded yet — check back after a few more scheduled refreshes.</div>`;
 }
 
 function renderSkillGroups(skills){
@@ -452,7 +483,7 @@ function renderCard(p){
   const achBlock = p.achievements
     ? `<div class="achievements">
         <div class="a-label">Recent Achievements</div>
-        ${p.achievements.map(a => `<div class="ach-item"><span class="date">${a.date.split(" ")[0]}</span><span class="text">${a.text}</span></div>`).join("")}
+        ${p.achievements.map(a => `<div class="ach-item"><span class="date">${a.date.split(" ")[0]}</span><span class="text">${PVM_KEYWORDS.test(a.text) ? '⚔️ ' : ''}${a.text}</span></div>`).join("")}
       </div>`
     : `<div class="notice">Recent achievements hidden — ask them to enable RuneMetrics sharing (Settings → Privacy) to show boss kills, XP milestones, and drops here.</div>`;
 
@@ -511,6 +542,7 @@ async function loadData(isPoll){
     document.getElementById("lastRefreshedText").textContent = data.lastRefreshed || "unknown";
     renderSummary();
     renderLeaderboard();
+    renderXpLeaderboard();
     renderRoster();
   } catch (e) {
     document.getElementById("lastRefreshedText").textContent = "couldn't load data.json";
