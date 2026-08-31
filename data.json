@@ -1,5 +1,5 @@
 {
-  "lastRefreshed": "31 Aug 2026, 19:10 UTC",
+  "lastRefreshed": "31 Aug 2026, 19:40 UTC",
   "players": [
     {
       "name": "Key Kode",
@@ -42,7 +42,10 @@
       "public": false,
       "combatLevel": null,
       "quests": null,
-      "achievements": null
+      "achievements": null,
+      "xpGainedToday": null,
+      "xpGainedWeek": null,
+      "xpWeekDays": null
     },
     {
       "name": "Arcanekitten",
@@ -85,7 +88,10 @@
       "public": false,
       "combatLevel": null,
       "quests": null,
-      "achievements": null
+      "achievements": null,
+      "xpGainedToday": null,
+      "xpGainedWeek": null,
+      "xpWeekDays": null
     },
     {
       "name": "Castle Roars",
@@ -153,7 +159,10 @@
           "date": "08-Aug-2026 10:40",
           "text": "I found a battle-mage helm."
         }
-      ]
+      ],
+      "xpGainedToday": null,
+      "xpGainedWeek": null,
+      "xpWeekDays": null
     },
     {
       "name": "Utha10",
@@ -196,11 +205,14 @@
       "public": false,
       "combatLevel": null,
       "quests": null,
-      "achievements": null
+      "achievements": null,
+      "xpGainedToday": null,
+      "xpGainedWeek": null,
+      "xpWeekDays": null
     },
     {
       "name": "Mini Gabby",
-      "rank": 47642,
+      "rank": 47643,
       "totalLevel": 3148,
       "totalXp": 2209325975,
       "runeScore": 27590,
@@ -264,7 +276,10 @@
           "date": "08-Aug-2026 18:08",
           "text": "I defeated the Queen Black Dragon 6 times."
         }
-      ]
+      ],
+      "xpGainedToday": null,
+      "xpGainedWeek": null,
+      "xpWeekDays": null
     },
     {
       "name": "Dreammancer",
@@ -307,7 +322,10 @@
       "public": false,
       "combatLevel": null,
       "quests": null,
-      "achievements": null
+      "achievements": null,
+      "xpGainedToday": null,
+      "xpGainedWeek": null,
+      "xpWeekDays": null
     },
     {
       "name": "Medicated",
@@ -375,7 +393,10 @@
           "date": "24-Nov-2025 05:23",
           "text": "152000000XP in Crafting"
         }
-      ]
+      ],
+      "xpGainedToday": null,
+      "xpGainedWeek": null,
+      "xpWeekDays": null
     }
   ]
 }
