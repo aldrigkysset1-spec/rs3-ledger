@@ -130,6 +130,37 @@
   .theme-toggle:hover{ color: var(--text-primary); border-color: var(--accent); }
   .theme-toggle .icon{ font-size: 13px; line-height: 1; }
 
+  select.select-control{
+    font-family: "Manrope", system-ui, sans-serif;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--text-primary);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 10px;
+    cursor: pointer;
+  }
+  .roster-heading{ display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .sort-label{
+    display: flex; align-items: center; gap: 6px;
+    font-family: "Manrope", system-ui, sans-serif;
+    font-size: 12px; font-weight: 600; text-transform: none; letter-spacing: normal;
+    color: var(--text-secondary);
+  }
+
+  /* ---------- head-to-head compare ---------- */
+  .compare-picker{ display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 16px; flex-wrap: wrap; }
+  .compare-picker .vs{ font-family: "Cinzel", serif; font-weight: 700; color: var(--text-muted); font-size: 13px; }
+  .cmp-header-row{ display: grid; grid-template-columns: 1fr 140px 1fr; padding-bottom: 8px; margin-bottom: 4px; border-bottom: 1px solid var(--border); }
+  .cmp-row{ display: grid; grid-template-columns: 1fr 140px 1fr; align-items: center; gap: 10px; padding: 6px 0; font-size: 13px; }
+  .cmp-row + .cmp-row{ border-top: 1px dashed var(--border); }
+  .cmp-val{ font-family: "IBM Plex Mono", ui-monospace, monospace; }
+  .cmp-val.left{ text-align: right; }
+  .cmp-val.right{ text-align: left; }
+  .cmp-label{ text-align: center; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); }
+  .cmp-val.winner{ color: var(--good); font-weight: 800; }
+
   /* ---------- group summary ---------- */
   .summary{
     display: grid;
@@ -319,6 +350,7 @@
   @media (max-width: 720px){
     .summary{ grid-template-columns: repeat(2, 1fr); }
     .lb-row{ grid-template-columns: 18px 92px 1fr 70px; }
+    .cmp-row, .cmp-header-row{ grid-template-columns: 1fr 96px 1fr; }
   }
 </style>
 </head>
@@ -351,7 +383,27 @@
     <div id="xpRows"></div>
   </div>
 
-  <div class="section-heading">The Fellowship</div>
+  <div class="leaderboard">
+    <div class="section-heading">Head-to-Head</div>
+    <div class="compare-picker">
+      <select id="compareA" class="select-control"></select>
+      <span class="vs">vs</span>
+      <select id="compareB" class="select-control"></select>
+    </div>
+    <div id="compareBody"></div>
+  </div>
+
+  <div class="section-heading roster-heading">
+    <span>The Fellowship</span>
+    <label class="sort-label">Sort by
+      <select id="rosterSort" class="select-control">
+        <option value="level">Total Level</option>
+        <option value="xp">Total XP</option>
+        <option value="runescore">RuneScore</option>
+        <option value="name">Name (A&ndash;Z)</option>
+      </select>
+    </label>
+  </div>
   <div class="roster" id="roster"></div>
 
   <footer class="page-footer">
@@ -523,8 +575,98 @@ function renderCard(p){
   </div>`;
 }
 
+// ---------- sortable roster ----------
+const ROSTER_SORT_KEY = "ledger-roster-sort";
+let rosterSortKey = "level";
+try {
+  const saved = localStorage.getItem(ROSTER_SORT_KEY);
+  if (saved) rosterSortKey = saved;
+} catch {}
+
+const ROSTER_SORTERS = {
+  level: (a,b) => b.totalLevel - a.totalLevel,
+  xp: (a,b) => b.totalXp - a.totalXp,
+  runescore: (a,b) => b.runeScore - a.runeScore,
+  name: (a,b) => a.name.localeCompare(b.name),
+};
+
+function sortedPlayers(){
+  const known = PLAYERS.filter(p => !p.missing);
+  const missing = PLAYERS.filter(p => p.missing);
+  const sortFn = ROSTER_SORTERS[rosterSortKey] || ROSTER_SORTERS.level;
+  return known.slice().sort(sortFn).concat(missing);
+}
+
 function renderRoster(){
-  document.getElementById("roster").innerHTML = PLAYERS.map(renderCard).join("");
+  document.getElementById("roster").innerHTML = sortedPlayers().map(renderCard).join("");
+}
+
+// ---------- head-to-head compare ----------
+function populateCompareSelects(){
+  const known = PLAYERS.filter(p => !p.missing);
+  const selA = document.getElementById("compareA");
+  const selB = document.getElementById("compareB");
+  const prevA = selA.value, prevB = selB.value;
+  const options = known.map(p => `<option value="${p.name}">${p.name}</option>`).join("");
+  selA.innerHTML = options;
+  selB.innerHTML = options;
+  const names = known.map(p => p.name);
+  selA.value = names.includes(prevA) ? prevA : (names[0] || "");
+  selB.value = names.includes(prevB) ? prevB : (names[1] || names[0] || "");
+}
+
+function cmpRow(label, va, vb, higherIsBetter){
+  if (higherIsBetter === undefined) higherIsBetter = true;
+  let aWin = false, bWin = false;
+  if (typeof va === "number" && typeof vb === "number" && va !== vb){
+    aWin = higherIsBetter ? va > vb : va < vb;
+    bWin = higherIsBetter ? vb > va : vb < va;
+  }
+  const fa = typeof va === "number" ? fmt(va) : (va == null ? "—" : va);
+  const fb = typeof vb === "number" ? fmt(vb) : (vb == null ? "—" : vb);
+  return `<div class="cmp-row">
+    <div class="cmp-val left${aWin ? ' winner' : ''}">${fa}</div>
+    <div class="cmp-label">${label}</div>
+    <div class="cmp-val right${bWin ? ' winner' : ''}">${fb}</div>
+  </div>`;
+}
+
+function renderCompare(){
+  const known = PLAYERS.filter(p => !p.missing);
+  const body = document.getElementById("compareBody");
+  if (known.length < 2){
+    body.innerHTML = `<div class="notice">Need at least two tracked players to compare.</div>`;
+    return;
+  }
+  const nameA = document.getElementById("compareA").value;
+  const nameB = document.getElementById("compareB").value;
+  const a = known.find(p => p.name === nameA);
+  const b = known.find(p => p.name === nameB);
+  if (!a || !b) return;
+
+  let rows = cmpRow("Total Level", a.totalLevel, b.totalLevel);
+  rows += cmpRow("Total XP", a.totalXp, b.totalXp);
+  rows += cmpRow("RuneScore", a.runeScore, b.runeScore);
+  if (a.combatLevel != null || b.combatLevel != null){
+    rows += cmpRow("Combat Level", a.combatLevel != null ? a.combatLevel : null, b.combatLevel != null ? b.combatLevel : null);
+  }
+  if (a.quests || b.quests){
+    rows += cmpRow("Quests Complete", a.quests ? a.quests.complete : null, b.quests ? b.quests.complete : null);
+  }
+
+  const skillRows = Object.keys(CAPS).map(skill => cmpRow(skill, a.skills[skill], b.skills[skill])).join("");
+
+  body.innerHTML = `
+    <div class="cmp-header-row">
+      <div class="cmp-val left" style="font-weight:800; font-family:'Manrope', system-ui, sans-serif;">${a.name}</div>
+      <div></div>
+      <div class="cmp-val right" style="font-weight:800; font-family:'Manrope', system-ui, sans-serif;">${b.name}</div>
+    </div>
+    ${rows}
+    <details class="skills" style="margin-top:8px;">
+      <summary>Compare all 29 skills</summary>
+      <div style="margin-top:8px;">${skillRows}</div>
+    </details>`;
 }
 
 // ---------- load data.json (regenerated automatically by a GitHub Action) ----------
@@ -543,6 +685,8 @@ async function loadData(isPoll){
     renderSummary();
     renderLeaderboard();
     renderXpLeaderboard();
+    populateCompareSelects();
+    renderCompare();
     renderRoster();
   } catch (e) {
     document.getElementById("lastRefreshedText").textContent = "couldn't load data.json";
@@ -554,6 +698,19 @@ async function loadData(isPoll){
 
 loadData(false);
 setInterval(() => loadData(true), REFRESH_POLL_MS);
+
+document.getElementById("compareA").addEventListener("change", renderCompare);
+document.getElementById("compareB").addEventListener("change", renderCompare);
+
+(function initRosterSortControl(){
+  const sel = document.getElementById("rosterSort");
+  sel.value = rosterSortKey;
+  sel.addEventListener("change", () => {
+    rosterSortKey = sel.value;
+    try { localStorage.setItem(ROSTER_SORT_KEY, rosterSortKey); } catch {}
+    renderRoster();
+  });
+})();
 
 // ---------- dark mode toggle ----------
 (function initThemeToggle(){
