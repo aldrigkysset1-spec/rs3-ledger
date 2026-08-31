@@ -1,0 +1,585 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Adventurers' Ledger</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+  :root{
+    --bg: #f3efe4;
+    --surface: #ffffff;
+    --surface-2: #ece4d2;
+    --border: #ddd2b8;
+    --text-primary: #241d13;
+    --text-secondary: #5b5340;
+    --text-muted: #8a806a;
+    --accent: #0a8577;
+    --accent-soft: #dcefe9;
+    --gold: #92650f;
+    --gold-soft: #f3e6c9;
+    --good: #0ca30c;
+    --good-soft: #e2f4df;
+    --critical: #b23b2f;
+    --critical-soft: #fbe6e1;
+    --shadow: 0 1px 2px rgba(36,29,19,0.06), 0 8px 24px -12px rgba(36,29,19,0.18);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg: #14181f;
+      --surface: #1b212b;
+      --surface-2: #232a36;
+      --border: #333d4e;
+      --text-primary: #ede8d9;
+      --text-secondary: #b3ae9c;
+      --text-muted: #7c7a6c;
+      --accent: #55d8c1;
+      --accent-soft: #1d3733;
+      --gold: #e3ac4c;
+      --gold-soft: #362c17;
+      --good: #5fc27c;
+      --good-soft: #1c3322;
+      --critical: #e2685c;
+      --critical-soft: #3a211d;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 28px -14px rgba(0,0,0,0.6);
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg: #14181f;
+    --surface: #1b212b;
+    --surface-2: #232a36;
+    --border: #333d4e;
+    --text-primary: #ede8d9;
+    --text-secondary: #b3ae9c;
+    --text-muted: #7c7a6c;
+    --accent: #55d8c1;
+    --accent-soft: #1d3733;
+    --gold: #e3ac4c;
+    --gold-soft: #362c17;
+    --good: #5fc27c;
+    --good-soft: #1c3322;
+    --critical: #e2685c;
+    --critical-soft: #3a211d;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 28px -14px rgba(0,0,0,0.6);
+    color-scheme: dark;
+  }
+
+  *{ box-sizing: border-box; }
+  body{ background: var(--bg); color: var(--text-primary); }
+  .page{
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+    font-family: "Manrope", system-ui, sans-serif;
+  }
+  .num{ font-family: "IBM Plex Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+
+  /* ---------- masthead ---------- */
+  .masthead{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    padding-bottom: 24px;
+    margin-bottom: 28px;
+    border-bottom: 2px solid var(--border);
+  }
+  .masthead h1{
+    font-family: "Cinzel", serif;
+    font-weight: 700;
+    font-size: clamp(28px, 4vw, 40px);
+    letter-spacing: 0.01em;
+    margin: 0 0 6px;
+    text-wrap: balance;
+  }
+  .masthead .sub{
+    color: var(--text-secondary);
+    font-size: 15px;
+    max-width: 52ch;
+  }
+  .masthead .meta{
+    text-align: right;
+    color: var(--text-muted);
+    font-size: 13px;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+  }
+  .masthead .meta .dot{ color: var(--good); }
+
+  .theme-toggle{
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: "Manrope", system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-secondary);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 6px 12px;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+  }
+  .theme-toggle:hover{ color: var(--text-primary); border-color: var(--accent); }
+  .theme-toggle .icon{ font-size: 13px; line-height: 1; }
+
+  /* ---------- group summary ---------- */
+  .summary{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+  .tile{
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    box-shadow: var(--shadow);
+  }
+  .tile .label{
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+  .tile .value{
+    font-size: 24px;
+    font-weight: 700;
+  }
+  .tile .value small{
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-left: 4px;
+  }
+
+  /* ---------- leaderboard ---------- */
+  .section-heading{
+    font-family: "Cinzel", serif;
+    font-weight: 600;
+    font-size: 18px;
+    margin: 0 0 14px;
+    letter-spacing: 0.01em;
+  }
+  .leaderboard{
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 22px;
+    box-shadow: var(--shadow);
+    margin-bottom: 36px;
+  }
+  .lb-row{
+    display: grid;
+    grid-template-columns: 22px 120px 1fr 92px;
+    align-items: center;
+    gap: 12px;
+    padding: 9px 0;
+  }
+  .lb-row + .lb-row{ border-top: 1px dashed var(--border); }
+  .lb-rank{ color: var(--text-muted); font-size: 13px; }
+  .lb-name{ font-weight: 700; font-size: 14px; }
+  .lb-track{
+    height: 10px;
+    background: var(--surface-2);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .lb-fill{
+    height: 100%;
+    background: var(--accent);
+    border-radius: 6px 0 0 6px;
+  }
+  .lb-fill.maxed{ border-radius: 6px; }
+  .lb-total{ text-align: right; font-size: 13px; color: var(--text-secondary); }
+
+  /* ---------- roster ---------- */
+  .roster{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 18px;
+  }
+  .card{
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px 22px 18px;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .card-head{
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .card-head h2{
+    font-family: "Cinzel", serif;
+    font-size: 19px;
+    font-weight: 600;
+    margin: 0;
+  }
+  .pill{
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11.5px;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .pill-maxed{ background: var(--good-soft); color: var(--good); }
+  .pill-cb{ background: var(--surface-2); color: var(--text-secondary); }
+  .pill-missing{ background: var(--critical-soft); color: var(--critical); }
+
+  .stat-row{ display: flex; gap: 22px; flex-wrap: wrap; }
+  .stat{ min-width: 90px; }
+  .stat .k{ font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-muted); margin-bottom: 3px;}
+  .stat .v{ font-size: 15px; font-weight: 700; }
+  .stat .v.small{ font-size: 13px; font-weight: 600; color: var(--text-secondary); }
+
+  .bar{
+    height: 8px;
+    background: var(--surface-2);
+    border-radius: 5px;
+    overflow: hidden;
+    margin-top: 6px;
+  }
+  .bar > span{
+    display: block;
+    height: 100%;
+    background: var(--accent);
+  }
+  .bar > span.good{ background: var(--good); }
+
+  .notice{
+    font-size: 12.5px;
+    color: var(--text-secondary);
+    background: var(--surface-2);
+    border-radius: 8px;
+    padding: 9px 11px;
+    line-height: 1.5;
+  }
+  .notice.critical{ background: var(--critical-soft); color: var(--critical); }
+
+  .achievements{ display: flex; flex-direction: column; gap: 7px; }
+  .achievements .a-label{ font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-muted); }
+  .ach-item{ font-size: 12.5px; line-height: 1.45; display: flex; gap: 7px; }
+  .ach-item .date{ color: var(--gold); font-weight: 600; white-space: nowrap; font-size: 11px; padding-top: 1px; }
+  .ach-item .text{ color: var(--text-primary); }
+
+  details.skills{ border-top: 1px solid var(--border); padding-top: 10px; }
+  details.skills summary{
+    cursor: pointer;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--accent);
+    list-style: none;
+  }
+  details.skills summary::-webkit-details-marker{ display:none; }
+  details.skills summary::before{ content: "▸ "; }
+  details.skills[open] summary::before{ content: "▾ "; }
+  .skill-groups{ margin-top: 12px; display: flex; flex-direction: column; gap: 12px; }
+  .skill-group .g-title{ font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-muted); margin-bottom: 6px; }
+  .skill-grid{ display: grid; grid-template-columns: 1fr 1fr; gap: 6px 14px; }
+  .skill-row{ display: flex; flex-direction: column; gap: 3px; padding: 3px 0; }
+  .skill-row .sr-top{ display: flex; justify-content: space-between; font-size: 12px; }
+  .skill-row .sr-top .lvl{ font-weight: 700; }
+  .skill-row .sr-top .lvl.capped{ color: var(--good); }
+  .skill-row .mini-bar{ height: 4px; background: var(--surface-2); border-radius: 3px; overflow: hidden; }
+  .skill-row .mini-bar > span{ display:block; height:100%; background: var(--accent); }
+  .skill-row .mini-bar > span.good{ background: var(--good); }
+
+  .card.missing{ align-items: flex-start; }
+  .card.missing .card-head h2{ color: var(--text-secondary); }
+
+  footer.page-footer{
+    margin-top: 44px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 12px;
+    line-height: 1.7;
+  }
+  footer.page-footer a{ color: var(--accent); }
+
+  @media (max-width: 720px){
+    .summary{ grid-template-columns: repeat(2, 1fr); }
+    .lb-row{ grid-template-columns: 18px 92px 1fr 70px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <div class="masthead">
+    <div>
+      <h1>Adventurers' Ledger</h1>
+      <div class="sub">Skills, quests, and recent deeds for Kitten's RS3 fellowship — Arcanekitten, Key&nbsp;Kode, Dreammancer, Mini&nbsp;Gabby, Castle&nbsp;Roars, and Utha10.</div>
+    </div>
+    <div class="meta">
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">
+        <span class="icon" id="themeToggleIcon">🌙</span><span id="themeToggleLabel">Dark mode</span>
+      </button>
+      <div><span class="dot">●</span> Last refreshed 31 Aug 2026, 17:08 UTC</div>
+      <div>Source: RuneScape Hiscores &amp; RuneMetrics</div>
+    </div>
+  </div>
+
+  <div class="summary" id="summaryTiles"></div>
+
+  <div class="leaderboard">
+    <div class="section-heading">Total Level Standings</div>
+    <div id="lbRows"></div>
+  </div>
+
+  <div class="section-heading">The Fellowship</div>
+  <div class="roster" id="roster"></div>
+
+  <footer class="page-footer">
+    Total level is out of the current in-game maximum of 3,232. Quest &amp; recent-achievement data only appears for players who've set their RuneMetrics profile to public (in‑game: Settings → Privacy). Hiscores figures are public by default unless a player has opted out. Data is a snapshot — ask Kim for a refresh, or wait for the next scheduled one.
+  </footer>
+</div>
+
+<script>
+const MAX_TOTAL_LEVEL = 3232;
+
+const SKILL_GROUPS = [
+  { title: "Combat", skills: ["Attack","Defence","Strength","Constitution","Ranged","Prayer","Magic","Summoning","Necromancy"] },
+  { title: "Gathering", skills: ["Woodcutting","Fishing","Mining","Farming","Hunter","Divination","Archaeology"] },
+  { title: "Artisan", skills: ["Cooking","Fletching","Firemaking","Crafting","Smithing","Herblore","Runecrafting","Construction","Invention"] },
+  { title: "Support", skills: ["Agility","Thieving","Slayer","Dungeoneering"] },
+];
+
+const CAPS = {
+  Attack:120, Defence:99, Strength:120, Constitution:99, Ranged:120, Prayer:99, Magic:120,
+  Cooking:99, Woodcutting:110, Fletching:110, Fishing:99, Firemaking:110, Crafting:110,
+  Smithing:110, Mining:110, Herblore:120, Agility:99, Thieving:120, Slayer:120, Farming:120,
+  Runecrafting:110, Hunter:110, Construction:120, Summoning:99, Dungeoneering:120,
+  Divination:99, Invention:120, Archaeology:120, Necromancy:120,
+};
+
+// Levels pulled from RuneScape Hiscores (rank,level,xp CSV) or RuneMetrics profile JSON.
+const PLAYERS = [
+  {
+    name: "Key Kode", rank: 3307, totalLevel: 3232, totalXp: 5800000000,
+    source: "hiscores", public: false, combatLevel: null, quests: null, achievements: null,
+    skills: { Attack:120, Defence:99, Strength:120, Constitution:99, Ranged:120, Prayer:99, Magic:120, Cooking:99, Woodcutting:110, Fletching:110, Fishing:99, Firemaking:110, Crafting:110, Smithing:110, Mining:110, Herblore:120, Agility:99, Thieving:120, Slayer:120, Farming:120, Runecrafting:110, Hunter:110, Construction:120, Summoning:99, Dungeoneering:120, Divination:99, Invention:120, Archaeology:120, Necromancy:120 },
+  },
+  {
+    name: "Arcanekitten", rank: 5020, totalLevel: 3232, totalXp: 5800000000,
+    source: "hiscores", public: false, combatLevel: null, quests: null, achievements: null,
+    skills: { Attack:120, Defence:99, Strength:120, Constitution:99, Ranged:120, Prayer:99, Magic:120, Cooking:99, Woodcutting:110, Fletching:110, Fishing:99, Firemaking:110, Crafting:110, Smithing:110, Mining:110, Herblore:120, Agility:99, Thieving:120, Slayer:120, Farming:120, Runecrafting:110, Hunter:110, Construction:120, Summoning:99, Dungeoneering:120, Divination:99, Invention:120, Archaeology:120, Necromancy:120 },
+  },
+  {
+    name: "Castle Roars", rank: 7501, totalLevel: 3232, totalXp: 5357455731,
+    source: "runemetrics", public: true, combatLevel: 152,
+    quests: { complete: 356, started: 1, notStarted: 6 },
+    achievements: [
+      { date: "09-Aug-2026 03:07", text: "I found a trickster hood." },
+      { date: "09-Aug-2026 02:22", text: "I found a vanguard helm." },
+      { date: "08-Aug-2026 22:18", text: "178,000,000 XP in Agility." },
+      { date: "08-Aug-2026 11:01", text: "I found a battle-mage helm." },
+      { date: "08-Aug-2026 10:40", text: "I found a battle-mage helm." },
+    ],
+    skills: { Attack:120, Defence:99, Strength:120, Constitution:99, Ranged:120, Prayer:99, Magic:120, Cooking:99, Woodcutting:110, Fletching:110, Fishing:99, Firemaking:110, Crafting:110, Smithing:110, Mining:110, Herblore:120, Agility:99, Thieving:120, Slayer:120, Farming:120, Runecrafting:110, Hunter:110, Construction:120, Summoning:99, Dungeoneering:120, Divination:99, Invention:120, Archaeology:120, Necromancy:120 },
+  },
+  {
+    name: "Utha10", rank: 39378, totalLevel: 3172, totalXp: 2136987575,
+    source: "hiscores", public: false, combatLevel: null, quests: null, achievements: null,
+    skills: { Attack:112, Defence:99, Strength:112, Constitution:99, Ranged:112, Prayer:99, Magic:112, Cooking:99, Woodcutting:110, Fletching:110, Fishing:99, Firemaking:110, Crafting:110, Smithing:110, Mining:110, Herblore:120, Agility:99, Thieving:113, Slayer:112, Farming:120, Runecrafting:110, Hunter:110, Construction:114, Summoning:99, Dungeoneering:120, Divination:99, Invention:113, Archaeology:120, Necromancy:120 },
+  },
+  {
+    name: "Mini Gabby", rank: 47638, totalLevel: 3148, totalXp: 2209325975,
+    source: "runemetrics", public: true, combatLevel: 152,
+    quests: { complete: 348, started: 0, notStarted: 15 },
+    achievements: [
+      { date: "09-Aug-2026 22:53", text: "I killed the goddess of destruction: Amascut, the Devourer." },
+      { date: "09-Aug-2026 21:11", text: "I killed 4 Rakshas (Powerful and imprisoned dinosaurs)." },
+      { date: "08-Aug-2026 22:44", text: "176,000,000 XP in Firemaking." },
+      { date: "08-Aug-2026 22:44", text: "Defeated the Queen Black Dragon 21 times." },
+      { date: "08-Aug-2026 18:08", text: "Defeated the Queen Black Dragon 6 times." },
+    ],
+    skills: { Attack:107, Defence:99, Strength:107, Constitution:99, Ranged:106, Prayer:99, Magic:120, Cooking:99, Woodcutting:110, Fletching:106, Fishing:99, Firemaking:110, Crafting:103, Smithing:101, Mining:110, Herblore:120, Agility:99, Thieving:120, Slayer:120, Farming:118, Runecrafting:101, Hunter:110, Construction:107, Summoning:99, Dungeoneering:120, Divination:99, Invention:120, Archaeology:120, Necromancy:120 },
+  },
+  {
+    name: "Dreammancer", rank: 6949, totalLevel: 3232, totalXp: 5549867500,
+    source: "hiscores", public: false, combatLevel: null, quests: null, achievements: null,
+    skills: { Attack:120, Defence:99, Strength:120, Constitution:99, Ranged:120, Prayer:99, Magic:120, Cooking:99, Woodcutting:110, Fletching:110, Fishing:99, Firemaking:110, Crafting:110, Smithing:110, Mining:110, Herblore:120, Agility:99, Thieving:120, Slayer:120, Farming:120, Runecrafting:110, Hunter:110, Construction:120, Summoning:99, Dungeoneering:120, Divination:99, Invention:120, Archaeology:120, Necromancy:120 },
+  },
+];
+
+const fmt = n => n.toLocaleString("en-US");
+
+function bar(pct, good){
+  return `<div class="bar"><span class="${good ? 'good' : ''}" style="width:${Math.min(100,pct)}%"></span></div>`;
+}
+
+function renderSummary(){
+  const known = PLAYERS.filter(p => !p.missing);
+  const totalLevel = known.reduce((s,p)=>s+p.totalLevel,0);
+  const totalXp = known.reduce((s,p)=>s+p.totalXp,0);
+  const questPlayers = known.filter(p=>p.quests);
+  const questsDone = questPlayers.reduce((s,p)=>s+p.quests.complete,0);
+  const maxedCount = known.filter(p=>p.totalLevel===MAX_TOTAL_LEVEL).length;
+
+  const tiles = [
+    { label: "Members Tracked", value: `${known.length}<small>/${PLAYERS.length}</small>` },
+    { label: "Combined Total Level", value: fmt(totalLevel) },
+    { label: "Combined Total XP", value: fmt(totalXp) },
+    { label: "Maxed Members", value: `${maxedCount}<small>/${known.length}</small>` },
+  ];
+  document.getElementById("summaryTiles").innerHTML = tiles.map(t =>
+    `<div class="tile"><div class="label">${t.label}</div><div class="value num">${t.value}</div></div>`
+  ).join("");
+}
+
+function renderLeaderboard(){
+  const ranked = PLAYERS.filter(p=>!p.missing).slice().sort((a,b)=> b.totalLevel - a.totalLevel || a.rank - b.rank);
+  document.getElementById("lbRows").innerHTML = ranked.map((p,i)=>{
+    const pct = p.totalLevel / MAX_TOTAL_LEVEL * 100;
+    const maxed = p.totalLevel === MAX_TOTAL_LEVEL;
+    return `<div class="lb-row">
+      <div class="lb-rank num">${i+1}</div>
+      <div class="lb-name">${p.name}</div>
+      <div class="lb-track"><div class="lb-fill${maxed ? ' maxed' : ''}" style="width:${pct}%"></div></div>
+      <div class="lb-total num">${fmt(p.totalLevel)}</div>
+    </div>`;
+  }).join("");
+}
+
+function renderSkillGroups(skills){
+  return SKILL_GROUPS.map(g => {
+    const rows = g.skills.map(name => {
+      const lvl = skills[name];
+      const cap = CAPS[name];
+      const capped = lvl >= cap;
+      const pct = lvl / cap * 100;
+      return `<div class="skill-row">
+        <div class="sr-top"><span>${name}</span><span class="lvl${capped ? ' capped' : ''}">${lvl}<span style="color:var(--text-muted); font-weight:500;">/${cap}</span></span></div>
+        ${bar(pct, capped)}
+      </div>`;
+    }).join("");
+    return `<div class="skill-group"><div class="g-title">${g.title}</div><div class="skill-grid">${rows}</div></div>`;
+  }).join("");
+}
+
+function renderCard(p){
+  if (p.missing){
+    return `<div class="card missing">
+      <div class="card-head"><h2>${p.name}</h2><span class="pill pill-missing">Not found</span></div>
+      <div class="notice critical">No RuneScape account matching "<strong>${p.name}</strong>" turned up on the Hiscores. Double-check the exact spelling and capitalization in-game (Account → Display name), or whether they've been active recently enough to appear — then this card will fill in on the next refresh.</div>
+    </div>`;
+  }
+
+  const maxed = p.totalLevel === MAX_TOTAL_LEVEL;
+  const totalPct = p.totalLevel / MAX_TOTAL_LEVEL * 100;
+
+  const questBlock = p.quests
+    ? `<div class="stat" style="flex:1; min-width:160px;">
+        <div class="k">Quests Complete</div>
+        <div class="v small">${p.quests.complete} / ${p.quests.complete + p.quests.started + p.quests.notStarted}</div>
+        ${bar(p.quests.complete / (p.quests.complete + p.quests.started + p.quests.notStarted) * 100)}
+      </div>`
+    : `<div class="notice">Quest progress hidden — RuneMetrics profile is private.</div>`;
+
+  const achBlock = p.achievements
+    ? `<div class="achievements">
+        <div class="a-label">Recent Achievements</div>
+        ${p.achievements.map(a => `<div class="ach-item"><span class="date">${a.date.split(" ")[0]}</span><span class="text">${a.text}</span></div>`).join("")}
+      </div>`
+    : `<div class="notice">Recent achievements hidden — ask them to enable RuneMetrics sharing (Settings → Privacy) to show boss kills, XP milestones, and drops here.</div>`;
+
+  return `<div class="card">
+    <div class="card-head">
+      <h2>${p.name}</h2>
+      ${maxed ? '<span class="pill pill-maxed">Maxed</span>' : (p.combatLevel ? `<span class="pill pill-cb">CB ${p.combatLevel}</span>` : '')}
+    </div>
+
+    <div class="stat-row">
+      <div class="stat">
+        <div class="k">Total Level</div>
+        <div class="v num">${fmt(p.totalLevel)}<span style="color:var(--text-muted); font-weight:500;"> / ${fmt(MAX_TOTAL_LEVEL)}</span></div>
+        ${bar(totalPct, maxed)}
+      </div>
+      <div class="stat">
+        <div class="k">Total XP</div>
+        <div class="v num small">${fmt(p.totalXp)}</div>
+      </div>
+      <div class="stat">
+        <div class="k">Hiscores Rank</div>
+        <div class="v num small">#${fmt(p.rank)}</div>
+      </div>
+    </div>
+
+    ${questBlock}
+    ${achBlock}
+
+    <details class="skills">
+      <summary>Full skill list (29)</summary>
+      <div class="skill-groups">${renderSkillGroups(p.skills)}</div>
+    </details>
+  </div>`;
+}
+
+function renderRoster(){
+  document.getElementById("roster").innerHTML = PLAYERS.map(renderCard).join("");
+}
+
+renderSummary();
+renderLeaderboard();
+renderRoster();
+
+// ---------- dark mode toggle ----------
+(function initThemeToggle(){
+  const root = document.documentElement;
+  const btn = document.getElementById("themeToggle");
+  const icon = document.getElementById("themeToggleIcon");
+  const label = document.getElementById("themeToggleLabel");
+  const STORAGE_KEY = "ledger-theme";
+
+  function systemPrefersDark(){
+    try { return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches; }
+    catch { return false; }
+  }
+  function currentTheme(){
+    const stamped = root.dataset.theme;
+    if (stamped === "dark" || stamped === "light") return stamped;
+    return systemPrefersDark() ? "dark" : "light";
+  }
+  function applyButton(theme){
+    const showingDark = theme === "dark";
+    icon.textContent = showingDark ? "☀️" : "🌙";
+    label.textContent = showingDark ? "Light mode" : "Dark mode";
+  }
+  function setTheme(theme){
+    root.dataset.theme = theme;
+    root.style.colorScheme = theme;
+    applyButton(theme);
+    try { localStorage.setItem(STORAGE_KEY, theme); } catch {}
+  }
+
+  let saved = null;
+  try { saved = localStorage.getItem(STORAGE_KEY); } catch {}
+  if (saved === "dark" || saved === "light") setTheme(saved);
+  else applyButton(currentTheme());
+
+  btn.addEventListener("click", () => {
+    setTheme(currentTheme() === "dark" ? "light" : "dark");
+  });
+})();
+</script>
+</body>
+</html>
