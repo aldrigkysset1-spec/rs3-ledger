@@ -333,7 +333,7 @@
       <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">
         <span class="icon" id="themeToggleIcon">🌙</span><span id="themeToggleLabel">Dark mode</span>
       </button>
-      <div><span class="dot">●</span> Last refreshed 31 Aug 2026, 17:08 UTC</div>
+      <div><span class="dot">●</span> Last refreshed 31 Aug 2026, 18:07 UTC</div>
       <div>Source: RuneScape Hiscores &amp; RuneMetrics</div>
     </div>
   </div>
@@ -374,17 +374,17 @@ const CAPS = {
 // Levels pulled from RuneScape Hiscores (rank,level,xp CSV) or RuneMetrics profile JSON.
 const PLAYERS = [
   {
-    name: "Key Kode", rank: 3307, totalLevel: 3232, totalXp: 5800000000,
+    name: "Key Kode", rank: 3307, totalLevel: 3232, totalXp: 5800000000, runeScore: 34150,
     source: "hiscores", public: false, combatLevel: null, quests: null, achievements: null,
     skills: { Attack:120, Defence:99, Strength:120, Constitution:99, Ranged:120, Prayer:99, Magic:120, Cooking:99, Woodcutting:110, Fletching:110, Fishing:99, Firemaking:110, Crafting:110, Smithing:110, Mining:110, Herblore:120, Agility:99, Thieving:120, Slayer:120, Farming:120, Runecrafting:110, Hunter:110, Construction:120, Summoning:99, Dungeoneering:120, Divination:99, Invention:120, Archaeology:120, Necromancy:120 },
   },
   {
-    name: "Arcanekitten", rank: 5020, totalLevel: 3232, totalXp: 5800000000,
+    name: "Arcanekitten", rank: 5020, totalLevel: 3232, totalXp: 5800000000, runeScore: 33925,
     source: "hiscores", public: false, combatLevel: null, quests: null, achievements: null,
     skills: { Attack:120, Defence:99, Strength:120, Constitution:99, Ranged:120, Prayer:99, Magic:120, Cooking:99, Woodcutting:110, Fletching:110, Fishing:99, Firemaking:110, Crafting:110, Smithing:110, Mining:110, Herblore:120, Agility:99, Thieving:120, Slayer:120, Farming:120, Runecrafting:110, Hunter:110, Construction:120, Summoning:99, Dungeoneering:120, Divination:99, Invention:120, Archaeology:120, Necromancy:120 },
   },
   {
-    name: "Castle Roars", rank: 7501, totalLevel: 3232, totalXp: 5357455731,
+    name: "Castle Roars", rank: 7501, totalLevel: 3232, totalXp: 5357455731, runeScore: 33390,
     source: "runemetrics", public: true, combatLevel: 152,
     quests: { complete: 356, started: 1, notStarted: 6 },
     achievements: [
@@ -397,12 +397,12 @@ const PLAYERS = [
     skills: { Attack:120, Defence:99, Strength:120, Constitution:99, Ranged:120, Prayer:99, Magic:120, Cooking:99, Woodcutting:110, Fletching:110, Fishing:99, Firemaking:110, Crafting:110, Smithing:110, Mining:110, Herblore:120, Agility:99, Thieving:120, Slayer:120, Farming:120, Runecrafting:110, Hunter:110, Construction:120, Summoning:99, Dungeoneering:120, Divination:99, Invention:120, Archaeology:120, Necromancy:120 },
   },
   {
-    name: "Utha10", rank: 39378, totalLevel: 3172, totalXp: 2136987575,
+    name: "Utha10", rank: 39378, totalLevel: 3172, totalXp: 2136987575, runeScore: 19380,
     source: "hiscores", public: false, combatLevel: null, quests: null, achievements: null,
     skills: { Attack:112, Defence:99, Strength:112, Constitution:99, Ranged:112, Prayer:99, Magic:112, Cooking:99, Woodcutting:110, Fletching:110, Fishing:99, Firemaking:110, Crafting:110, Smithing:110, Mining:110, Herblore:120, Agility:99, Thieving:113, Slayer:112, Farming:120, Runecrafting:110, Hunter:110, Construction:114, Summoning:99, Dungeoneering:120, Divination:99, Invention:113, Archaeology:120, Necromancy:120 },
   },
   {
-    name: "Mini Gabby", rank: 47638, totalLevel: 3148, totalXp: 2209325975,
+    name: "Mini Gabby", rank: 47641, totalLevel: 3148, totalXp: 2209325975, runeScore: 27590,
     source: "runemetrics", public: true, combatLevel: 152,
     quests: { complete: 348, started: 0, notStarted: 15 },
     achievements: [
@@ -415,7 +415,7 @@ const PLAYERS = [
     skills: { Attack:107, Defence:99, Strength:107, Constitution:99, Ranged:106, Prayer:99, Magic:120, Cooking:99, Woodcutting:110, Fletching:106, Fishing:99, Firemaking:110, Crafting:103, Smithing:101, Mining:110, Herblore:120, Agility:99, Thieving:120, Slayer:120, Farming:118, Runecrafting:101, Hunter:110, Construction:107, Summoning:99, Dungeoneering:120, Divination:99, Invention:120, Archaeology:120, Necromancy:120 },
   },
   {
-    name: "Dreammancer", rank: 6949, totalLevel: 3232, totalXp: 5549867500,
+    name: "Dreammancer", rank: 6949, totalLevel: 3232, totalXp: 5549867500, runeScore: 21400,
     source: "hiscores", public: false, combatLevel: null, quests: null, achievements: null,
     skills: { Attack:120, Defence:99, Strength:120, Constitution:99, Ranged:120, Prayer:99, Magic:120, Cooking:99, Woodcutting:110, Fletching:110, Fishing:99, Firemaking:110, Crafting:110, Smithing:110, Mining:110, Herblore:120, Agility:99, Thieving:120, Slayer:120, Farming:120, Runecrafting:110, Hunter:110, Construction:120, Summoning:99, Dungeoneering:120, Divination:99, Invention:120, Archaeology:120, Necromancy:120 },
   },
@@ -517,6 +517,10 @@ function renderCard(p){
       <div class="stat">
         <div class="k">Total XP</div>
         <div class="v num small">${fmt(p.totalXp)}</div>
+      </div>
+      <div class="stat">
+        <div class="k">RuneScore</div>
+        <div class="v num small" style="color:var(--gold);">${fmt(p.runeScore)}</div>
       </div>
       <div class="stat">
         <div class="k">Hiscores Rank</div>
