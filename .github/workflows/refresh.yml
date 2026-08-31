@@ -126,6 +126,69 @@ jobs:
 
               players.append(entry)
 
+          # ---------- XP history: track daily snapshots so we can show weekly XP gains ----------
+          HISTORY_FILE = "history.json"
+          HISTORY_MAX_DAYS = 35  # keep ~5 weeks; plenty for a 7-day comparison, bounded file size
+
+          today_str = datetime.datetime.utcnow().strftime("%Y-%m-%d")
+
+          try:
+              with open(HISTORY_FILE) as f:
+                  history = json.load(f)
+                  if not isinstance(history, list):
+                      history = []
+          except (FileNotFoundError, json.JSONDecodeError):
+              history = []
+
+          today_xp = {p["name"]: p["totalXp"] for p in players if not p.get("missing") and isinstance(p.get("totalXp"), int)}
+          today_snapshot = {"date": today_str, "xp": today_xp}
+
+          if history and history[-1].get("date") == today_str:
+              history[-1] = today_snapshot  # multiple runs today: keep latest snapshot for today
+          else:
+              history.append(today_snapshot)
+
+          history = history[-HISTORY_MAX_DAYS:]
+
+          def days_ago(entry):
+              try:
+                  d = datetime.datetime.strptime(entry["date"], "%Y-%m-%d")
+                  t = datetime.datetime.strptime(today_str, "%Y-%m-%d")
+                  return (t - d).days
+              except Exception:
+                  return None
+
+          def xp_gain(name, target_days_back):
+              """XP gained since the historical snapshot closest to target_days_back days ago."""
+              candidates = [h for h in history[:-1] if name in h.get("xp", {})]
+              scored = []
+              for h in candidates:
+                  da = days_ago(h)
+                  if da is not None:
+                      scored.append((abs(da - target_days_back), da, h))
+              if not scored:
+                  return None, None
+              scored.sort(key=lambda x: x[0])
+              _, actual_days, best = scored[0]
+              gain = today_xp[name] - best["xp"][name]
+              return gain, actual_days
+
+          for p in players:
+              if p.get("missing") or p["name"] not in today_xp:
+                  p["xpGainedToday"] = None
+                  p["xpGainedWeek"] = None
+                  p["xpWeekDays"] = None
+                  continue
+              g_today, _ = xp_gain(p["name"], 1)
+              g_week, d_week = xp_gain(p["name"], 7)
+              p["xpGainedToday"] = g_today
+              p["xpGainedWeek"] = g_week
+              p["xpWeekDays"] = d_week
+
+          with open(HISTORY_FILE, "w") as f:
+              json.dump(history, f, indent=2)
+              f.write("\n")
+
           out = {
               "lastRefreshed": datetime.datetime.utcnow().strftime("%d %b %Y, %H:%M UTC"),
               "players": players,
@@ -139,7 +202,6 @@ jobs:
         run: |
           git config user.name "rs3-ledger-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data.json
+          git add data.json history.json
           git diff --cached --quiet || git commit -m "Auto-refresh RS3 stats"
           git push
-
