@@ -1,1 +1,145 @@
+name: Refresh RS3 Ledger Data
+
+on:
+  schedule:
+    - cron: '3,33 * * * *'   # every 30 minutes, offset from the hour/half-hour to avoid GitHub's busiest minute
+  workflow_dispatch: {}       # lets you trigger a refresh on demand from the Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch RuneScape stats and rebuild data.json
+        run: |
+          python3 - << 'PYEOF'
+          import json, urllib.request, urllib.parse, urllib.error, datetime
+
+          NAMES = ["Key Kode", "Arcanekitten", "Castle Roars", "Utha10", "Mini Gabby", "Dreammancer", "Medicated"]
+
+          SKILL_ORDER = [
+              "Attack","Defence","Strength","Constitution","Ranged","Prayer","Magic","Cooking",
+              "Woodcutting","Fletching","Fishing","Firemaking","Crafting","Smithing","Mining",
+              "Herblore","Agility","Thieving","Slayer","Farming","Runecrafting","Hunter",
+              "Construction","Summoning","Dungeoneering","Divination","Invention","Archaeology","Necromancy",
+          ]
+
+          HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; rs3-ledger-bot/1.0; +github-actions)"}
+
+          def fetch(url):
+              req = urllib.request.Request(url, headers=HEADERS)
+              with urllib.request.urlopen(req, timeout=20) as r:
+                  return r.read().decode("utf-8", "replace")
+
+          def get_hiscores(name):
+              """Returns a dict of parsed hiscores data, or None on 404 (name not found)."""
+              url = "https://secure.runescape.com/m=hiscore/index_lite.ws?player=" + urllib.parse.quote(name)
+              try:
+                  body = fetch(url)
+              except urllib.error.HTTPError as e:
+                  if e.code == 404:
+                      return None
+                  raise
+              lines = [l.strip() for l in body.strip().splitlines() if l.strip()]
+              if len(lines) < 55:
+                  raise ValueError("hiscores response too short for " + name)
+              overall = lines[0].split(",")
+              total_level, total_xp, rank = int(overall[1]), int(overall[2]), int(overall[0])
+              skills = {}
+              for i, skill_name in enumerate(SKILL_ORDER):
+                  skills[skill_name] = int(lines[1 + i].split(",")[1])
+              if sum(skills.values()) != total_level:
+                  raise ValueError("skill checksum mismatch for " + name)
+              runescore = int(lines[54].split(",")[1])  # line 55 = RuneScore (activity id 54)
+              return {"rank": rank, "totalLevel": total_level, "totalXp": total_xp,
+                      "runeScore": runescore, "skills": skills}
+
+          def get_runemetrics(name):
+              """Returns the RuneMetrics profile dict, or None if private/no profile/any error."""
+              url = ("https://apps.runescape.com/runemetrics/profile/profile?user="
+                     + urllib.parse.quote(name) + "&activities=5")
+              try:
+                  data = json.loads(fetch(url))
+              except Exception:
+                  return None
+              if not isinstance(data, dict) or "error" in data:
+                  return None
+              return data
+
+          # Load the previous run's data as a fallback for any player whose fetch fails
+          # this run (network hiccup, checksum mismatch, etc.) so a transient error never
+          # blanks out good data.
+          previous = {}
+          try:
+              with open("data.json") as f:
+                  for p in json.load(f).get("players", []):
+                      previous[p["name"]] = p
+          except FileNotFoundError:
+              pass
+
+          players = []
+          for name in NAMES:
+              try:
+                  hs = get_hiscores(name)
+              except Exception as e:
+                  print(f"::warning::hiscores fetch failed for {name}: {e}")
+                  hs = "error"
+
+              if hs is None:
+                  players.append({"name": name, "missing": True})
+                  continue
+              if hs == "error":
+                  # keep whatever we had last run rather than guessing
+                  if name in previous:
+                      players.append(previous[name])
+                  else:
+                      players.append({"name": name, "missing": True})
+                  continue
+
+              entry = {
+                  "name": name, "rank": hs["rank"], "totalLevel": hs["totalLevel"],
+                  "totalXp": hs["totalXp"], "runeScore": hs["runeScore"], "skills": hs["skills"],
+                  "source": "hiscores", "public": False,
+                  "combatLevel": None, "quests": None, "achievements": None,
+              }
+
+              rm = get_runemetrics(name)
+              if rm:
+                  entry["source"] = "runemetrics"
+                  entry["public"] = True
+                  entry["combatLevel"] = rm.get("combatlevel")
+                  entry["quests"] = {
+                      "complete": rm.get("questscomplete", 0),
+                      "started": rm.get("questsstarted", 0),
+                      "notStarted": rm.get("questsnotstarted", 0),
+                  }
+                  entry["achievements"] = [
+                      {"date": a.get("date", ""), "text": a.get("text", "")}
+                      for a in rm.get("activities", [])[:5]
+                  ]
+                  if isinstance(rm.get("totalxp"), int):
+                      entry["totalXp"] = rm["totalxp"]
+
+              players.append(entry)
+
+          out = {
+              "lastRefreshed": datetime.datetime.utcnow().strftime("%d %b %Y, %H:%M UTC"),
+              "players": players,
+          }
+          with open("data.json", "w") as f:
+              json.dump(out, f, indent=2)
+              f.write("\n")
+          PYEOF
+
+      - name: Commit and push data.json if it changed
+        run: |
+          git config user.name "rs3-ledger-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data.json
+          git diff --cached --quiet || git commit -m "Auto-refresh RS3 stats"
+          git push
 
