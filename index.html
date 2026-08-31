@@ -333,7 +333,7 @@
       <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">
         <span class="icon" id="themeToggleIcon">🌙</span><span id="themeToggleLabel">Dark mode</span>
       </button>
-      <div><span class="dot">●</span> Last refreshed 31 Aug 2026, 18:20 UTC</div>
+      <div><span class="dot" id="lastRefreshedDot">●</span> Last refreshed <span id="lastRefreshedText">loading…</span></div>
       <div>Source: RuneScape Hiscores &amp; RuneMetrics</div>
     </div>
   </div>
@@ -349,7 +349,7 @@
   <div class="roster" id="roster"></div>
 
   <footer class="page-footer">
-    Total level is out of the current in-game maximum of 3,232. Quest &amp; recent-achievement data only appears for players who've set their RuneMetrics profile to public (in‑game: Settings → Privacy). Hiscores figures are public by default unless a player has opted out. Data is a snapshot — ask Kim for a refresh, or wait for the next scheduled one.
+    Total level is out of the current in-game maximum of 3,232. Quest &amp; recent-achievement data only appears for players who've set their RuneMetrics profile to public (in‑game: Settings → Privacy). Hiscores figures are public by default unless a player has opted out. This page refreshes itself automatically — a scheduled job pulls fresh stats and this tab re-checks for updates every few minutes on its own.
   </footer>
 </div>
 
@@ -371,68 +371,9 @@ const CAPS = {
   Divination:99, Invention:120, Archaeology:120, Necromancy:120,
 };
 
-// Levels pulled from RuneScape Hiscores (rank,level,xp CSV) or RuneMetrics profile JSON.
-const PLAYERS = [
-  {
-    name: "Key Kode", rank: 3307, totalLevel: 3232, totalXp: 5800000000, runeScore: 34150,
-    source: "hiscores", public: false, combatLevel: null, quests: null, achievements: null,
-    skills: { Attack:120, Defence:99, Strength:120, Constitution:99, Ranged:120, Prayer:99, Magic:120, Cooking:99, Woodcutting:110, Fletching:110, Fishing:99, Firemaking:110, Crafting:110, Smithing:110, Mining:110, Herblore:120, Agility:99, Thieving:120, Slayer:120, Farming:120, Runecrafting:110, Hunter:110, Construction:120, Summoning:99, Dungeoneering:120, Divination:99, Invention:120, Archaeology:120, Necromancy:120 },
-  },
-  {
-    name: "Arcanekitten", rank: 5020, totalLevel: 3232, totalXp: 5800000000, runeScore: 33925,
-    source: "hiscores", public: false, combatLevel: null, quests: null, achievements: null,
-    skills: { Attack:120, Defence:99, Strength:120, Constitution:99, Ranged:120, Prayer:99, Magic:120, Cooking:99, Woodcutting:110, Fletching:110, Fishing:99, Firemaking:110, Crafting:110, Smithing:110, Mining:110, Herblore:120, Agility:99, Thieving:120, Slayer:120, Farming:120, Runecrafting:110, Hunter:110, Construction:120, Summoning:99, Dungeoneering:120, Divination:99, Invention:120, Archaeology:120, Necromancy:120 },
-  },
-  {
-    name: "Castle Roars", rank: 7501, totalLevel: 3232, totalXp: 5357455731, runeScore: 33390,
-    source: "runemetrics", public: true, combatLevel: 152,
-    quests: { complete: 356, started: 1, notStarted: 6 },
-    achievements: [
-      { date: "09-Aug-2026 03:07", text: "I found a trickster hood." },
-      { date: "09-Aug-2026 02:22", text: "I found a vanguard helm." },
-      { date: "08-Aug-2026 22:18", text: "178,000,000 XP in Agility." },
-      { date: "08-Aug-2026 11:01", text: "I found a battle-mage helm." },
-      { date: "08-Aug-2026 10:40", text: "I found a battle-mage helm." },
-    ],
-    skills: { Attack:120, Defence:99, Strength:120, Constitution:99, Ranged:120, Prayer:99, Magic:120, Cooking:99, Woodcutting:110, Fletching:110, Fishing:99, Firemaking:110, Crafting:110, Smithing:110, Mining:110, Herblore:120, Agility:99, Thieving:120, Slayer:120, Farming:120, Runecrafting:110, Hunter:110, Construction:120, Summoning:99, Dungeoneering:120, Divination:99, Invention:120, Archaeology:120, Necromancy:120 },
-  },
-  {
-    name: "Utha10", rank: 39378, totalLevel: 3172, totalXp: 2136987575, runeScore: 19380,
-    source: "hiscores", public: false, combatLevel: null, quests: null, achievements: null,
-    skills: { Attack:112, Defence:99, Strength:112, Constitution:99, Ranged:112, Prayer:99, Magic:112, Cooking:99, Woodcutting:110, Fletching:110, Fishing:99, Firemaking:110, Crafting:110, Smithing:110, Mining:110, Herblore:120, Agility:99, Thieving:113, Slayer:112, Farming:120, Runecrafting:110, Hunter:110, Construction:114, Summoning:99, Dungeoneering:120, Divination:99, Invention:113, Archaeology:120, Necromancy:120 },
-  },
-  {
-    name: "Mini Gabby", rank: 47641, totalLevel: 3148, totalXp: 2209325975, runeScore: 27590,
-    source: "runemetrics", public: true, combatLevel: 152,
-    quests: { complete: 348, started: 0, notStarted: 15 },
-    achievements: [
-      { date: "09-Aug-2026 22:53", text: "I killed the goddess of destruction: Amascut, the Devourer." },
-      { date: "09-Aug-2026 21:11", text: "I killed 4 Rakshas (Powerful and imprisoned dinosaurs)." },
-      { date: "08-Aug-2026 22:44", text: "176,000,000 XP in Firemaking." },
-      { date: "08-Aug-2026 22:44", text: "Defeated the Queen Black Dragon 21 times." },
-      { date: "08-Aug-2026 18:08", text: "Defeated the Queen Black Dragon 6 times." },
-    ],
-    skills: { Attack:107, Defence:99, Strength:107, Constitution:99, Ranged:106, Prayer:99, Magic:120, Cooking:99, Woodcutting:110, Fletching:106, Fishing:99, Firemaking:110, Crafting:103, Smithing:101, Mining:110, Herblore:120, Agility:99, Thieving:120, Slayer:120, Farming:118, Runecrafting:101, Hunter:110, Construction:107, Summoning:99, Dungeoneering:120, Divination:99, Invention:120, Archaeology:120, Necromancy:120 },
-  },
-  {
-    name: "Dreammancer", rank: 6949, totalLevel: 3232, totalXp: 5549867500, runeScore: 21400,
-    source: "hiscores", public: false, combatLevel: null, quests: null, achievements: null,
-    skills: { Attack:120, Defence:99, Strength:120, Constitution:99, Ranged:120, Prayer:99, Magic:120, Cooking:99, Woodcutting:110, Fletching:110, Fishing:99, Firemaking:110, Crafting:110, Smithing:110, Mining:110, Herblore:120, Agility:99, Thieving:120, Slayer:120, Farming:120, Runecrafting:110, Hunter:110, Construction:120, Summoning:99, Dungeoneering:120, Divination:99, Invention:120, Archaeology:120, Necromancy:120 },
-  },
-  {
-    name: "Medicated", rank: 7114, totalLevel: 3232, totalXp: 5488421764, runeScore: 30595,
-    source: "runemetrics", public: true, combatLevel: 152,
-    quests: { complete: 356, started: 0, notStarted: 7 },
-    achievements: [
-      { date: "14-Jul-2026 20:25", text: "I found an ancient effigy." },
-      { date: "14-Jul-2026 20:16", text: "I found a pair of Armadyl boots." },
-      { date: "14-Jul-2026 20:09", text: "I found an Armadyl buckler." },
-      { date: "14-Jul-2026 20:04", text: "I found a godsword shard 2." },
-      { date: "24-Nov-2025 05:23", text: "152,000,000 XP in Crafting." },
-    ],
-    skills: { Attack:120, Defence:99, Strength:120, Constitution:99, Ranged:120, Prayer:99, Magic:120, Cooking:99, Woodcutting:110, Fletching:110, Fishing:99, Firemaking:110, Crafting:110, Smithing:110, Mining:110, Herblore:120, Agility:99, Thieving:120, Slayer:120, Farming:120, Runecrafting:110, Hunter:110, Construction:120, Summoning:99, Dungeoneering:120, Divination:99, Invention:120, Archaeology:120, Necromancy:120 },
-  },
-];
+// Player data is no longer hardcoded here — it's fetched from data.json, which a
+// scheduled GitHub Action regenerates from RuneScape Hiscores/RuneMetrics on its own.
+let PLAYERS = [];
 
 const fmt = n => n.toLocaleString("en-US");
 
@@ -555,9 +496,32 @@ function renderRoster(){
   document.getElementById("roster").innerHTML = PLAYERS.map(renderCard).join("");
 }
 
-renderSummary();
-renderLeaderboard();
-renderRoster();
+// ---------- load data.json (regenerated automatically by a GitHub Action) ----------
+const REFRESH_POLL_MS = 5 * 60 * 1000; // re-check for a newer data.json every 5 min while the tab is open
+let lastKnownRefresh = null;
+
+async function loadData(isPoll){
+  try {
+    const res = await fetch("data.json", { cache: "no-store" });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    const data = await res.json();
+    if (isPoll && data.lastRefreshed === lastKnownRefresh) return; // nothing new, skip a re-render
+    lastKnownRefresh = data.lastRefreshed;
+    PLAYERS = data.players || [];
+    document.getElementById("lastRefreshedText").textContent = data.lastRefreshed || "unknown";
+    renderSummary();
+    renderLeaderboard();
+    renderRoster();
+  } catch (e) {
+    document.getElementById("lastRefreshedText").textContent = "couldn't load data.json";
+    const dot = document.getElementById("lastRefreshedDot");
+    if (dot) dot.style.color = "var(--critical)";
+    console.error("Ledger data load failed:", e);
+  }
+}
+
+loadData(false);
+setInterval(() => loadData(true), REFRESH_POLL_MS);
 
 // ---------- dark mode toggle ----------
 (function initThemeToggle(){
