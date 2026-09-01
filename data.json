@@ -1,5 +1,5 @@
 {
-  "lastRefreshed": "31 Aug 2026, 23:40 UTC",
+  "lastRefreshed": "01 Sep 2026, 00:28 UTC",
   "players": [
     {
       "name": "Key Kode",
@@ -43,9 +43,9 @@
       "combatLevel": null,
       "quests": null,
       "achievements": null,
-      "xpGainedToday": null,
-      "xpGainedWeek": null,
-      "xpWeekDays": null
+      "xpGainedToday": 0,
+      "xpGainedWeek": 0,
+      "xpWeekDays": 1
     },
     {
       "name": "Arcanekitten",
@@ -89,9 +89,9 @@
       "combatLevel": null,
       "quests": null,
       "achievements": null,
-      "xpGainedToday": null,
-      "xpGainedWeek": null,
-      "xpWeekDays": null
+      "xpGainedToday": 0,
+      "xpGainedWeek": 0,
+      "xpWeekDays": 1
     },
     {
       "name": "Castle Roars",
@@ -160,13 +160,13 @@
           "text": "I found a battle-mage helm."
         }
       ],
-      "xpGainedToday": null,
-      "xpGainedWeek": null,
-      "xpWeekDays": null
+      "xpGainedToday": 0,
+      "xpGainedWeek": 0,
+      "xpWeekDays": 1
     },
     {
       "name": "Utha10",
-      "rank": 39384,
+      "rank": 39381,
       "totalLevel": 3172,
       "totalXp": 2136999731,
       "runeScore": 19380,
@@ -206,13 +206,13 @@
       "combatLevel": null,
       "quests": null,
       "achievements": null,
-      "xpGainedToday": null,
-      "xpGainedWeek": null,
-      "xpWeekDays": null
+      "xpGainedToday": 0,
+      "xpGainedWeek": 0,
+      "xpWeekDays": 1
     },
     {
       "name": "Mini Gabby",
-      "rank": 47647,
+      "rank": 47642,
       "totalLevel": 3148,
       "totalXp": 2209325975,
       "runeScore": 27590,
@@ -277,9 +277,9 @@
           "text": "I defeated the Queen Black Dragon 6 times."
         }
       ],
-      "xpGainedToday": null,
-      "xpGainedWeek": null,
-      "xpWeekDays": null
+      "xpGainedToday": 0,
+      "xpGainedWeek": 0,
+      "xpWeekDays": 1
     },
     {
       "name": "Dreammancer",
@@ -323,9 +323,9 @@
       "combatLevel": null,
       "quests": null,
       "achievements": null,
-      "xpGainedToday": null,
-      "xpGainedWeek": null,
-      "xpWeekDays": null
+      "xpGainedToday": 0,
+      "xpGainedWeek": 0,
+      "xpWeekDays": 1
     },
     {
       "name": "Medicated",
@@ -394,9 +394,9 @@
           "text": "152000000XP in Crafting"
         }
       ],
-      "xpGainedToday": null,
-      "xpGainedWeek": null,
-      "xpWeekDays": null
+      "xpGainedToday": 0,
+      "xpGainedWeek": 0,
+      "xpWeekDays": 1
     }
   ]
 }
