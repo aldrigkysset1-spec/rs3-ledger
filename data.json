@@ -1,5 +1,5 @@
 {
-  "lastRefreshed": "01 Sep 2026, 10:46 UTC",
+  "lastRefreshed": "01 Sep 2026, 11:17 UTC",
   "players": [
     {
       "name": "Key Kode",
@@ -130,11 +130,36 @@
         "Archaeology": 120,
         "Necromancy": 120
       },
-      "source": "hiscores",
-      "public": false,
-      "combatLevel": null,
-      "quests": null,
-      "achievements": null,
+      "source": "runemetrics",
+      "public": true,
+      "combatLevel": 152,
+      "quests": {
+        "complete": 356,
+        "started": 1,
+        "notStarted": 6
+      },
+      "achievements": [
+        {
+          "date": "09-Aug-2026 03:07",
+          "text": "I found a trickster hood."
+        },
+        {
+          "date": "09-Aug-2026 02:22",
+          "text": "I found a vanguard helm."
+        },
+        {
+          "date": "08-Aug-2026 22:18",
+          "text": "178000000XP in Agility"
+        },
+        {
+          "date": "08-Aug-2026 11:01",
+          "text": "I found a battle-mage helm."
+        },
+        {
+          "date": "08-Aug-2026 10:40",
+          "text": "I found a battle-mage helm."
+        }
+      ],
       "xpGainedToday": 0,
       "xpGainedWeek": 0,
       "xpWeekDays": 1
@@ -222,11 +247,36 @@
         "Archaeology": 120,
         "Necromancy": 120
       },
-      "source": "hiscores",
-      "public": false,
-      "combatLevel": null,
-      "quests": null,
-      "achievements": null,
+      "source": "runemetrics",
+      "public": true,
+      "combatLevel": 152,
+      "quests": {
+        "complete": 348,
+        "started": 0,
+        "notStarted": 15
+      },
+      "achievements": [
+        {
+          "date": "09-Aug-2026 22:53",
+          "text": "I killed  Amascut, the Devourer."
+        },
+        {
+          "date": "09-Aug-2026 21:11",
+          "text": "I killed 4 Rakshas."
+        },
+        {
+          "date": "08-Aug-2026 22:44",
+          "text": "176000000XP in Firemaking"
+        },
+        {
+          "date": "08-Aug-2026 22:44",
+          "text": "I defeated the Queen Black Dragon 21 times."
+        },
+        {
+          "date": "08-Aug-2026 18:08",
+          "text": "I defeated the Queen Black Dragon 6 times."
+        }
+      ],
       "xpGainedToday": 0,
       "xpGainedWeek": 0,
       "xpWeekDays": 1
@@ -314,11 +364,36 @@
         "Archaeology": 120,
         "Necromancy": 120
       },
-      "source": "hiscores",
-      "public": false,
-      "combatLevel": null,
-      "quests": null,
-      "achievements": null,
+      "source": "runemetrics",
+      "public": true,
+      "combatLevel": 152,
+      "quests": {
+        "complete": 356,
+        "started": 0,
+        "notStarted": 7
+      },
+      "achievements": [
+        {
+          "date": "14-Jul-2026 20:25",
+          "text": "I found an ancient effigy"
+        },
+        {
+          "date": "14-Jul-2026 20:16",
+          "text": "I found a pair of Armadyl boots"
+        },
+        {
+          "date": "14-Jul-2026 20:09",
+          "text": "I found an Armadyl buckler"
+        },
+        {
+          "date": "14-Jul-2026 20:04",
+          "text": "I found a godsword shard 2"
+        },
+        {
+          "date": "24-Nov-2025 05:23",
+          "text": "152000000XP in Crafting"
+        }
+      ],
       "xpGainedToday": 0,
       "xpGainedWeek": 0,
       "xpWeekDays": 1
