@@ -1,5 +1,5 @@
 {
-  "lastRefreshed": "01 Sep 2026, 19:41 UTC",
+  "lastRefreshed": "01 Sep 2026, 20:18 UTC",
   "players": [
     {
       "name": "Key Kode",
@@ -168,7 +168,7 @@
       "name": "Utha10",
       "rank": 39380,
       "totalLevel": 3172,
-      "totalXp": 2136999731,
+      "totalXp": 2136999793,
       "runeScore": 19380,
       "skills": {
         "Attack": 112,
@@ -206,13 +206,13 @@
       "combatLevel": null,
       "quests": null,
       "achievements": null,
-      "xpGainedToday": 0,
-      "xpGainedWeek": 0,
+      "xpGainedToday": 62,
+      "xpGainedWeek": 62,
       "xpWeekDays": 1
     },
     {
       "name": "Mini Gabby",
-      "rank": 47638,
+      "rank": 47639,
       "totalLevel": 3148,
       "totalXp": 2209325975,
       "runeScore": 27590,
