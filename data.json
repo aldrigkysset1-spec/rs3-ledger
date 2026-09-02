@@ -1,5 +1,5 @@
 {
-  "lastRefreshed": "01 Sep 2026, 23:40 UTC",
+  "lastRefreshed": "02 Sep 2026, 00:27 UTC",
   "players": [
     {
       "name": "Key Kode",
@@ -45,7 +45,7 @@
       "achievements": null,
       "xpGainedToday": 0,
       "xpGainedWeek": 0,
-      "xpWeekDays": 1
+      "xpWeekDays": 2
     },
     {
       "name": "Arcanekitten",
@@ -91,7 +91,7 @@
       "achievements": null,
       "xpGainedToday": 0,
       "xpGainedWeek": 0,
-      "xpWeekDays": 1
+      "xpWeekDays": 2
     },
     {
       "name": "Castle Roars",
@@ -162,11 +162,11 @@
       ],
       "xpGainedToday": 0,
       "xpGainedWeek": 0,
-      "xpWeekDays": 1
+      "xpWeekDays": 2
     },
     {
       "name": "Utha10",
-      "rank": 39383,
+      "rank": 39380,
       "totalLevel": 3172,
       "totalXp": 2136999793,
       "runeScore": 19380,
@@ -206,13 +206,13 @@
       "combatLevel": null,
       "quests": null,
       "achievements": null,
-      "xpGainedToday": 62,
+      "xpGainedToday": 0,
       "xpGainedWeek": 62,
-      "xpWeekDays": 1
+      "xpWeekDays": 2
     },
     {
       "name": "Mini Gabby",
-      "rank": 47645,
+      "rank": 47642,
       "totalLevel": 3148,
       "totalXp": 2209325975,
       "runeScore": 27590,
@@ -279,11 +279,11 @@
       ],
       "xpGainedToday": 0,
       "xpGainedWeek": 0,
-      "xpWeekDays": 1
+      "xpWeekDays": 2
     },
     {
       "name": "Dreammancer",
-      "rank": 6948,
+      "rank": 6949,
       "totalLevel": 3232,
       "totalXp": 5549977859,
       "runeScore": 21400,
@@ -323,13 +323,13 @@
       "combatLevel": null,
       "quests": null,
       "achievements": null,
-      "xpGainedToday": 110359,
+      "xpGainedToday": 0,
       "xpGainedWeek": 110359,
-      "xpWeekDays": 1
+      "xpWeekDays": 2
     },
     {
       "name": "Medicated",
-      "rank": 7119,
+      "rank": 7121,
       "totalLevel": 3232,
       "totalXp": 5488421764,
       "runeScore": 30595,
@@ -396,7 +396,7 @@
       ],
       "xpGainedToday": 0,
       "xpGainedWeek": 0,
-      "xpWeekDays": 1
+      "xpWeekDays": 2
     }
   ]
 }
