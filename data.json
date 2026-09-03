@@ -1,5 +1,5 @@
 {
-  "lastRefreshed": "02 Sep 2026, 23:42 UTC",
+  "lastRefreshed": "03 Sep 2026, 00:29 UTC",
   "players": [
     {
       "name": "Key Kode",
@@ -45,7 +45,7 @@
       "achievements": null,
       "xpGainedToday": 0,
       "xpGainedWeek": 0,
-      "xpWeekDays": 2
+      "xpWeekDays": 3
     },
     {
       "name": "Arcanekitten",
@@ -91,7 +91,7 @@
       "achievements": null,
       "xpGainedToday": 0,
       "xpGainedWeek": 0,
-      "xpWeekDays": 2
+      "xpWeekDays": 3
     },
     {
       "name": "Castle Roars",
@@ -162,11 +162,11 @@
       ],
       "xpGainedToday": 0,
       "xpGainedWeek": 0,
-      "xpWeekDays": 2
+      "xpWeekDays": 3
     },
     {
       "name": "Utha10",
-      "rank": 39380,
+      "rank": 39379,
       "totalLevel": 3172,
       "totalXp": 2136999793,
       "runeScore": 19380,
@@ -208,11 +208,11 @@
       "achievements": null,
       "xpGainedToday": 0,
       "xpGainedWeek": 62,
-      "xpWeekDays": 2
+      "xpWeekDays": 3
     },
     {
       "name": "Mini Gabby",
-      "rank": 47640,
+      "rank": 47638,
       "totalLevel": 3148,
       "totalXp": 2209325975,
       "runeScore": 27590,
@@ -279,7 +279,7 @@
       ],
       "xpGainedToday": 0,
       "xpGainedWeek": 0,
-      "xpWeekDays": 2
+      "xpWeekDays": 3
     },
     {
       "name": "Dreammancer",
@@ -323,9 +323,9 @@
       "combatLevel": null,
       "quests": null,
       "achievements": null,
-      "xpGainedToday": 813861,
+      "xpGainedToday": 0,
       "xpGainedWeek": 924220,
-      "xpWeekDays": 2
+      "xpWeekDays": 3
     },
     {
       "name": "Medicated",
@@ -396,7 +396,7 @@
       ],
       "xpGainedToday": 0,
       "xpGainedWeek": 0,
-      "xpWeekDays": 2
+      "xpWeekDays": 3
     }
   ]
 }
