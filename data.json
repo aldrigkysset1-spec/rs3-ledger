@@ -1,5 +1,5 @@
 {
-  "lastRefreshed": "04 Sep 2026, 06:23 UTC",
+  "lastRefreshed": "04 Sep 2026, 06:48 UTC",
   "players": [
     {
       "name": "Key Kode",
@@ -285,7 +285,7 @@
       "name": "Dreammancer",
       "rank": 6939,
       "totalLevel": 3232,
-      "totalXp": 5553117729,
+      "totalXp": 5553276685,
       "runeScore": 21400,
       "skills": {
         "Attack": 120,
@@ -323,8 +323,8 @@
       "combatLevel": null,
       "quests": null,
       "achievements": null,
-      "xpGainedToday": 0,
-      "xpGainedWeek": 3250229,
+      "xpGainedToday": 158956,
+      "xpGainedWeek": 3409185,
       "xpWeekDays": 4
     },
     {
