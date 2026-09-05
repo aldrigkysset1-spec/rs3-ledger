@@ -1,5 +1,5 @@
 {
-  "lastRefreshed": "04 Sep 2026, 23:40 UTC",
+  "lastRefreshed": "05 Sep 2026, 00:28 UTC",
   "players": [
     {
       "name": "Key Kode",
@@ -45,11 +45,11 @@
       "achievements": null,
       "xpGainedToday": 0,
       "xpGainedWeek": 0,
-      "xpWeekDays": 4
+      "xpWeekDays": 5
     },
     {
       "name": "Arcanekitten",
-      "rank": 5022,
+      "rank": 5021,
       "totalLevel": 3232,
       "totalXp": 5800000000,
       "runeScore": 33925,
@@ -91,11 +91,11 @@
       "achievements": null,
       "xpGainedToday": 0,
       "xpGainedWeek": 0,
-      "xpWeekDays": 4
+      "xpWeekDays": 5
     },
     {
       "name": "Castle Roars",
-      "rank": 7506,
+      "rank": 7505,
       "totalLevel": 3232,
       "totalXp": 5357455731,
       "runeScore": 33390,
@@ -162,11 +162,11 @@
       ],
       "xpGainedToday": 0,
       "xpGainedWeek": 0,
-      "xpWeekDays": 4
+      "xpWeekDays": 5
     },
     {
       "name": "Utha10",
-      "rank": 39386,
+      "rank": 39385,
       "totalLevel": 3172,
       "totalXp": 2137011178,
       "runeScore": 19380,
@@ -206,13 +206,13 @@
       "combatLevel": null,
       "quests": null,
       "achievements": null,
-      "xpGainedToday": 11385,
+      "xpGainedToday": 0,
       "xpGainedWeek": 11447,
-      "xpWeekDays": 4
+      "xpWeekDays": 5
     },
     {
       "name": "Mini Gabby",
-      "rank": 47646,
+      "rank": 47644,
       "totalLevel": 3148,
       "totalXp": 2209325975,
       "runeScore": 27590,
@@ -279,11 +279,11 @@
       ],
       "xpGainedToday": 0,
       "xpGainedWeek": 0,
-      "xpWeekDays": 4
+      "xpWeekDays": 5
     },
     {
       "name": "Dreammancer",
-      "rank": 6943,
+      "rank": 6942,
       "totalLevel": 3232,
       "totalXp": 5553276685,
       "runeScore": 21400,
@@ -323,13 +323,13 @@
       "combatLevel": null,
       "quests": null,
       "achievements": null,
-      "xpGainedToday": 158956,
+      "xpGainedToday": 0,
       "xpGainedWeek": 3409185,
-      "xpWeekDays": 4
+      "xpWeekDays": 5
     },
     {
       "name": "Medicated",
-      "rank": 7125,
+      "rank": 7124,
       "totalLevel": 3232,
       "totalXp": 5488421764,
       "runeScore": 30595,
@@ -396,7 +396,7 @@
       ],
       "xpGainedToday": 0,
       "xpGainedWeek": 0,
-      "xpWeekDays": 4
+      "xpWeekDays": 5
     }
   ]
 }
