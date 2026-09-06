@@ -1,5 +1,5 @@
 {
-  "lastRefreshed": "06 Sep 2026, 06:47 UTC",
+  "lastRefreshed": "06 Sep 2026, 07:16 UTC",
   "players": [
     {
       "name": "Key Kode",
@@ -166,7 +166,7 @@
     },
     {
       "name": "Utha10",
-      "rank": 39370,
+      "rank": 39371,
       "totalLevel": 3172,
       "totalXp": 2137011178,
       "runeScore": 19380,
@@ -212,7 +212,7 @@
     },
     {
       "name": "Mini Gabby",
-      "rank": 47624,
+      "rank": 47626,
       "totalLevel": 3148,
       "totalXp": 2209325975,
       "runeScore": 27590,
@@ -285,7 +285,7 @@
       "name": "Dreammancer",
       "rank": 6940,
       "totalLevel": 3232,
-      "totalXp": 5553387340,
+      "totalXp": 5553545735,
       "runeScore": 21400,
       "skills": {
         "Attack": 120,
@@ -323,8 +323,8 @@
       "combatLevel": null,
       "quests": null,
       "achievements": null,
-      "xpGainedToday": 0,
-      "xpGainedWeek": 3519840,
+      "xpGainedToday": 158395,
+      "xpGainedWeek": 3678235,
       "xpWeekDays": 6
     },
     {
