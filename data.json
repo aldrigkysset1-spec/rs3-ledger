@@ -1,5 +1,5 @@
 {
-  "lastRefreshed": "10 Sep 2026, 20:47 UTC",
+  "lastRefreshed": "10 Sep 2026, 23:05 UTC",
   "players": [
     {
       "name": "Key Kode",
@@ -95,7 +95,7 @@
     },
     {
       "name": "Castle Roars",
-      "rank": 7509,
+      "rank": 7510,
       "totalLevel": 3232,
       "totalXp": 5357455731,
       "runeScore": 33390,
@@ -166,9 +166,9 @@
     },
     {
       "name": "Utha10",
-      "rank": 39357,
+      "rank": 39362,
       "totalLevel": 3172,
-      "totalXp": 2137011178,
+      "totalXp": 2137011236,
       "runeScore": 19380,
       "skills": {
         "Attack": 112,
@@ -206,13 +206,13 @@
       "combatLevel": null,
       "quests": null,
       "achievements": null,
-      "xpGainedToday": 0,
-      "xpGainedWeek": 11385,
+      "xpGainedToday": 58,
+      "xpGainedWeek": 11443,
       "xpWeekDays": 7
     },
     {
       "name": "Mini Gabby",
-      "rank": 47585,
+      "rank": 47587,
       "totalLevel": 3148,
       "totalXp": 2209325975,
       "runeScore": 27590,
@@ -283,7 +283,7 @@
     },
     {
       "name": "Dreammancer",
-      "rank": 6944,
+      "rank": 6945,
       "totalLevel": 3232,
       "totalXp": 5553930003,
       "runeScore": 21400,
