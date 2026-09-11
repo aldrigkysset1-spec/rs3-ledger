@@ -1,5 +1,5 @@
 {
-  "lastRefreshed": "11 Sep 2026, 06:36 UTC",
+  "lastRefreshed": "11 Sep 2026, 12:11 UTC",
   "players": [
     {
       "name": "Key Kode",
@@ -95,7 +95,7 @@
     },
     {
       "name": "Castle Roars",
-      "rank": 7506,
+      "rank": 7507,
       "totalLevel": 3232,
       "totalXp": 5357455731,
       "runeScore": 33390,
@@ -130,43 +130,18 @@
         "Archaeology": 120,
         "Necromancy": 120
       },
-      "source": "runemetrics",
-      "public": true,
-      "combatLevel": 152,
-      "quests": {
-        "complete": 356,
-        "started": 1,
-        "notStarted": 6
-      },
-      "achievements": [
-        {
-          "date": "09-Aug-2026 03:07",
-          "text": "I found a trickster hood."
-        },
-        {
-          "date": "09-Aug-2026 02:22",
-          "text": "I found a vanguard helm."
-        },
-        {
-          "date": "08-Aug-2026 22:18",
-          "text": "178000000XP in Agility"
-        },
-        {
-          "date": "08-Aug-2026 11:01",
-          "text": "I found a battle-mage helm."
-        },
-        {
-          "date": "08-Aug-2026 10:40",
-          "text": "I found a battle-mage helm."
-        }
-      ],
+      "source": "hiscores",
+      "public": false,
+      "combatLevel": null,
+      "quests": null,
+      "achievements": null,
       "xpGainedToday": 0,
       "xpGainedWeek": 0,
       "xpWeekDays": 7
     },
     {
       "name": "Utha10",
-      "rank": 39355,
+      "rank": 39356,
       "totalLevel": 3172,
       "totalXp": 2137011236,
       "runeScore": 19380,
@@ -212,7 +187,7 @@
     },
     {
       "name": "Mini Gabby",
-      "rank": 47579,
+      "rank": 47581,
       "totalLevel": 3148,
       "totalXp": 2209325975,
       "runeScore": 27590,
@@ -247,18 +222,43 @@
         "Archaeology": 120,
         "Necromancy": 120
       },
-      "source": "hiscores",
-      "public": false,
-      "combatLevel": null,
-      "quests": null,
-      "achievements": null,
+      "source": "runemetrics",
+      "public": true,
+      "combatLevel": 152,
+      "quests": {
+        "complete": 348,
+        "started": 0,
+        "notStarted": 15
+      },
+      "achievements": [
+        {
+          "date": "09-Aug-2026 22:53",
+          "text": "I killed  Amascut, the Devourer."
+        },
+        {
+          "date": "09-Aug-2026 21:11",
+          "text": "I killed 4 Rakshas."
+        },
+        {
+          "date": "08-Aug-2026 22:44",
+          "text": "176000000XP in Firemaking"
+        },
+        {
+          "date": "08-Aug-2026 22:44",
+          "text": "I defeated the Queen Black Dragon 21 times."
+        },
+        {
+          "date": "08-Aug-2026 18:08",
+          "text": "I defeated the Queen Black Dragon 6 times."
+        }
+      ],
       "xpGainedToday": 0,
       "xpGainedWeek": 0,
       "xpWeekDays": 7
     },
     {
       "name": "Dreammancer",
-      "rank": 6942,
+      "rank": 6943,
       "totalLevel": 3232,
       "totalXp": 5553930003,
       "runeScore": 21400,
