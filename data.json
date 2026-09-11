@@ -1,5 +1,5 @@
 {
-  "lastRefreshed": "11 Sep 2026, 12:11 UTC",
+  "lastRefreshed": "11 Sep 2026, 16:43 UTC",
   "players": [
     {
       "name": "Key Kode",
@@ -130,11 +130,36 @@
         "Archaeology": 120,
         "Necromancy": 120
       },
-      "source": "hiscores",
-      "public": false,
-      "combatLevel": null,
-      "quests": null,
-      "achievements": null,
+      "source": "runemetrics",
+      "public": true,
+      "combatLevel": 152,
+      "quests": {
+        "complete": 356,
+        "started": 1,
+        "notStarted": 6
+      },
+      "achievements": [
+        {
+          "date": "09-Aug-2026 03:07",
+          "text": "I found a trickster hood."
+        },
+        {
+          "date": "09-Aug-2026 02:22",
+          "text": "I found a vanguard helm."
+        },
+        {
+          "date": "08-Aug-2026 22:18",
+          "text": "178000000XP in Agility"
+        },
+        {
+          "date": "08-Aug-2026 11:01",
+          "text": "I found a battle-mage helm."
+        },
+        {
+          "date": "08-Aug-2026 10:40",
+          "text": "I found a battle-mage helm."
+        }
+      ],
       "xpGainedToday": 0,
       "xpGainedWeek": 0,
       "xpWeekDays": 7
@@ -258,7 +283,7 @@
     },
     {
       "name": "Dreammancer",
-      "rank": 6943,
+      "rank": 6944,
       "totalLevel": 3232,
       "totalXp": 5553930003,
       "runeScore": 21400,
