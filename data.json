@@ -1,9 +1,9 @@
 {
-  "lastRefreshed": "11 Sep 2026, 01:24 UTC",
+  "lastRefreshed": "11 Sep 2026, 06:36 UTC",
   "players": [
     {
       "name": "Key Kode",
-      "rank": 3308,
+      "rank": 3307,
       "totalLevel": 3232,
       "totalXp": 5800000000,
       "runeScore": 34150,
@@ -49,7 +49,7 @@
     },
     {
       "name": "Arcanekitten",
-      "rank": 5016,
+      "rank": 5015,
       "totalLevel": 3232,
       "totalXp": 5800000000,
       "runeScore": 33925,
@@ -95,7 +95,7 @@
     },
     {
       "name": "Castle Roars",
-      "rank": 7508,
+      "rank": 7506,
       "totalLevel": 3232,
       "totalXp": 5357455731,
       "runeScore": 33390,
@@ -212,7 +212,7 @@
     },
     {
       "name": "Mini Gabby",
-      "rank": 47584,
+      "rank": 47579,
       "totalLevel": 3148,
       "totalXp": 2209325975,
       "runeScore": 27590,
@@ -247,43 +247,18 @@
         "Archaeology": 120,
         "Necromancy": 120
       },
-      "source": "runemetrics",
-      "public": true,
-      "combatLevel": 152,
-      "quests": {
-        "complete": 348,
-        "started": 0,
-        "notStarted": 15
-      },
-      "achievements": [
-        {
-          "date": "09-Aug-2026 22:53",
-          "text": "I killed  Amascut, the Devourer."
-        },
-        {
-          "date": "09-Aug-2026 21:11",
-          "text": "I killed 4 Rakshas."
-        },
-        {
-          "date": "08-Aug-2026 22:44",
-          "text": "176000000XP in Firemaking"
-        },
-        {
-          "date": "08-Aug-2026 22:44",
-          "text": "I defeated the Queen Black Dragon 21 times."
-        },
-        {
-          "date": "08-Aug-2026 18:08",
-          "text": "I defeated the Queen Black Dragon 6 times."
-        }
-      ],
+      "source": "hiscores",
+      "public": false,
+      "combatLevel": null,
+      "quests": null,
+      "achievements": null,
       "xpGainedToday": 0,
       "xpGainedWeek": 0,
       "xpWeekDays": 7
     },
     {
       "name": "Dreammancer",
-      "rank": 6943,
+      "rank": 6942,
       "totalLevel": 3232,
       "totalXp": 5553930003,
       "runeScore": 21400,
@@ -329,7 +304,7 @@
     },
     {
       "name": "Medicated",
-      "rank": 7129,
+      "rank": 7127,
       "totalLevel": 3232,
       "totalXp": 5488421764,
       "runeScore": 30595,
